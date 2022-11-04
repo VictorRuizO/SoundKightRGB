@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Sound Light RGB</string>
+
+    <string-array name="modeLightArray">
+        <item>Audioritmico</item>
+        <item>Color Solido</item>
+        <item>Arcoiris</item>
+    </string-array>
+    <string name="titleWarning">Algo salió mal</string>
+    <string name="errorCodeWarning">Error code: %1$s</string>
+    <string name="gettingData">Obteniendo datos ...</string>
+    <string name="title_activity_setup">SetupActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="setupTitle">Configuración</string>
+    <string name="token_string">Token: </string>
+    <string name="powerVarString">Power var:</string>
+
+</resources>

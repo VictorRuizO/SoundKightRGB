@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_gray"
+    tools:context=".view.activity.MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/powerBackgroundConstraintLayout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        tools:background="@drawable/ic_baseline_circle_24"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/powerImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/ic_light" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.flask.colorpicker.ColorPickerView
+        android:id="@+id/colorPickerView"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:alphaSlider="true"
+        app:alphaSliderView="@+id/v_alpha_slider"
+        app:density="12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/powerBackgroundConstraintLayout"
+        app:wheelType="FLOWER" />
+
+
+    <ImageView
+        android:id="@+id/brightLessImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/brightSeekBar"
+        app:layout_constraintEnd_toStartOf="@+id/brightSeekBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/brightSeekBar"
+        app:srcCompat="@drawable/ic_brightness_less"
+        app:tint="@color/secand_white" />
+
+    <SeekBar
+        android:id="@+id/brightSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:max="255"
+        android:min="10"
+        app:layout_constraintEnd_toStartOf="@id/brightMasImageView"
+        app:layout_constraintStart_toEndOf="@id/brightLessImageView"
+        app:layout_constraintTop_toBottomOf="@id/colorPickerView" />
+
+    <ImageView
+        android:id="@+id/brightMasImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/brightSeekBar"
+        app:layout_constraintStart_toEndOf="@id/brightSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/brightSeekBar"
+        app:srcCompat="@drawable/ic_brightness_mas"
+        app:tint="@color/secand_white" />
+
+    <ImageView
+        android:id="@+id/speedLessImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/speedSeekBar"
+        app:layout_constraintEnd_toStartOf="@+id/speedSeekBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/speedSeekBar"
+        app:srcCompat="@drawable/ic_speed_less"
+        app:tint="@color/secand_white" />
+
+
+    <SeekBar
+        android:id="@+id/speedSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:min="10"
+        android:max="100"
+        app:layout_constraintEnd_toStartOf="@id/speedMasImageView"
+        app:layout_constraintStart_toEndOf="@id/speedLessImageView"
+        app:layout_constraintTop_toBottomOf="@id/brightSeekBar" />
+
+    <ImageView
+        android:id="@+id/speedMasImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/speedSeekBar"
+        app:layout_constraintStart_toEndOf="@id/speedSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/speedSeekBar"
+        app:srcCompat="@drawable/ic_speed_mas"
+        app:tint="@color/secand_white" />
+
+    <ImageView
+        android:id="@+id/volumeLessImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/volumeSeekBar"
+        app:layout_constraintEnd_toStartOf="@+id/volumeSeekBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/volumeSeekBar"
+        app:srcCompat="@drawable/ic_sound_less"
+        app:tint="@color/secand_white" />
+
+    <SeekBar
+        android:id="@+id/volumeSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:min="10"
+        android:max="100"
+        app:layout_constraintEnd_toStartOf="@id/volumeMasImageView"
+        app:layout_constraintStart_toEndOf="@id/volumeLessImageView"
+        app:layout_constraintTop_toBottomOf="@id/speedSeekBar" />
+
+    <ImageView
+        android:id="@+id/volumeMasImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/volumeSeekBar"
+        app:layout_constraintStart_toEndOf="@id/volumeSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/volumeSeekBar"
+        app:srcCompat="@drawable/ic_sound_mas"
+        app:tint="@color/secand_white" />
+
+    <Spinner
+        android:id="@+id/modeSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:outlineSpotShadowColor="@color/main_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/volumeSeekBar" />
+
+    <ImageView
+        android:id="@+id/whiteLightImageView"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/whiteBrightnessSeekBar"
+        app:layout_constraintEnd_toStartOf="@+id/whiteBrightnessSeekBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/whiteBrightnessSeekBar"
+        app:srcCompat="@drawable/ic_light"
+        app:tint="@color/secand_white" />
+
+    <SeekBar
+        android:id="@+id/whiteBrightnessSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="32dp"
+        android:max="255"
+        android:min="10"
+        app:layout_constraintEnd_toStartOf="@id/whiteSwitch"
+        app:layout_constraintStart_toEndOf="@id/whiteLightImageView"
+        app:layout_constraintTop_toBottomOf="@+id/modeSpinner" />
+
+    <Switch
+        android:id="@+id/whiteSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@id/whiteBrightnessSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/whiteBrightnessSeekBar"
+        app:layout_constraintTop_toTopOf="@id/whiteBrightnessSeekBar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/snackbarGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.99"
+        app:layout_constraintTop_toBottomOf="@id/whiteSwitch" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
