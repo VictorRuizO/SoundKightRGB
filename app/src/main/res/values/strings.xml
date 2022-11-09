@@ -21,5 +21,17 @@
     <string name="setupTitle">Configuración</string>
     <string name="token_string">Token: </string>
     <string name="powerVarString">Power var:</string>
+    <string name="colorVarString">Color var:</string>
+    <string name="brightnessVarString">Brightness var:</string>
+    <string name="speedVarString">Speed var:</string>
+    <string name="volumeVarString">Volume var:</string>
+    <string name="modeVarString">Mode var:</string>
+    <string name="whitePowerVarString">W. Power var:</string>
+    <string name="whiteBrightnessVarString">W. Brig. var:</string>
+    <string name="setup_modosTitle">Modos de iluminación</string>
+    <string name="save_button_text">GUARDAR</string>
+    <string name="error_saving_data">Algo ocurrió al guardar la información.</string>
+    <string name="setup_save_data_loader_text">Guardando datos...</string>
+
 
 </resources>

@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         setListeners()
         setObservers()
 
-        // goToSetupActivity()
+        goToSetupActivity()
     }
 
     private fun makeWarningSnackbar(subText: String) {

@@ -3,7 +3,10 @@ package com.example.soundlightrgb.di
 import android.graphics.Color
 import com.example.soundlightrgb.domain.generic.UseCase
 import com.example.soundlightrgb.domain.model.DeviceResponse
+import com.example.soundlightrgb.domain.model.VariableType
 import com.example.soundlightrgb.domain.usecase.*
+import com.example.soundlightrgb.view.model.ModeItemModel
+import com.example.soundlightrgb.view.model.VariableItemModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,6 +21,7 @@ import javax.inject.Qualifier
 @Qualifier annotation class ModeDevice
 @Qualifier annotation class WhitePowerDevice
 @Qualifier annotation class WhiteBrightnessDevice
+@Qualifier annotation class SaveDataSetup
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -25,7 +29,7 @@ abstract class UseCaseModule {
 
     @PowerDevice
     @Binds
-    abstract fun bindSetPowerDeviceUseCase(imp: SetPowerDeviceUseCase): UseCase<Boolean, DeviceResponse<@JvmSuppressWildcards Boolean>>
+    abstract fun bindSetPowerDeviceUseCase(imp: SetPowerDeviceUseCase): UseCase<Boolean, DeviceResponse<Boolean>>
 
     @Binds
     abstract fun bindGetVariableDeviceUseCase(imp: GetVariablesDeviceUseCase): UseCase<Any, DeviceResponse<List<@JvmSuppressWildcards Pair<String, Double>>>>
@@ -57,4 +61,23 @@ abstract class UseCaseModule {
     @ColorDevice
     @Binds
     abstract fun bindSetColorDeviceUseCase(imp: SetColorDeviceUseCase): UseCase<Int, DeviceResponse<Int>>
+
+    @SaveDataSetup
+    @Binds
+    abstract fun bindSaveVariableSetupUseCase(imp: SaveVariableSetupDataUseCase): UseCase<List<@JvmSuppressWildcards VariableItemModel>, Boolean>
+
+    @Binds
+    abstract fun bindLoadVariablesUseCase(imp: LoadVariablesUseCase): UseCase<Any, List<@JvmSuppressWildcards VariableItemModel>?>
+
+    @Binds
+    abstract fun bindSaveTokenUseCase(imp: SaveTokenUseCase): UseCase<String, Boolean>
+
+    @Binds
+    abstract fun binLoadTokenUseCase(imp: LoadTokenUseCase): UseCase<Any, String?>
+
+    @Binds
+    abstract fun bindSaveModesUseCase(imp: SaveModesUseCase): UseCase<List<@JvmSuppressWildcards ModeItemModel>, Boolean>
+
+    @Binds
+    abstract fun bindLoadModesUseCase(imp: LoadModesUseCase): UseCase<Any, List<@JvmSuppressWildcards ModeItemModel>?>
 }

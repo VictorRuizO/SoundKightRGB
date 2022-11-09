@@ -64,6 +64,10 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.44"
     // ColorPicker
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
+    // Room
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
+
 
     // Test
     testImplementation 'junit:junit:4.13.2'

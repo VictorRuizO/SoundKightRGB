@@ -36,4 +36,9 @@
     <style name="Theme.SoundLightRGB.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.SoundLightRGB.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="setupTitleTextview" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColor">@color/secand_white</item>
+        <item name="android:textSize">24sp</item>
+    </style>
 </resources>
