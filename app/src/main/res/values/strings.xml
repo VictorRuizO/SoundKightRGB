@@ -31,7 +31,11 @@
     <string name="setup_modosTitle">Modos de iluminación</string>
     <string name="save_button_text">GUARDAR</string>
     <string name="error_saving_data">Algo ocurrió al guardar la información.</string>
+    <string name="error_empty_saving_data">Falta algún campo por llenar.</string>
     <string name="setup_save_data_loader_text">Guardando datos...</string>
+    <string name="hint_nombre_text">Nombre</string>
+    <string name="hint_variable_id_text">Variable ID</string>
+    <string name="mode_text_spinner">Modo:</string>
 
 
 </resources>

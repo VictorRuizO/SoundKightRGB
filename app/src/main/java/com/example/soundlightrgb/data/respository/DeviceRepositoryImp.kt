@@ -87,4 +87,7 @@ class DeviceRepositoryImp @Inject constructor(
             )
         }
     }
+    companion object {
+        var token: String? = null
+    }
 }

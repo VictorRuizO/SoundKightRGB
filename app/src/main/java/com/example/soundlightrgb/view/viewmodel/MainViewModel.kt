@@ -1,6 +1,6 @@
 package com.example.soundlightrgb.view.viewmodel
 
-import android.graphics.Color
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,17 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.soundlightrgb.di.*
 import com.example.soundlightrgb.domain.generic.UseCase
 import com.example.soundlightrgb.domain.model.DeviceResponse
-import com.example.soundlightrgb.domain.model.Variables
-import com.example.soundlightrgb.domain.usecase.*
+import com.example.soundlightrgb.domain.model.VariableType
 import com.example.soundlightrgb.util.value
+import com.example.soundlightrgb.view.model.ModeItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getVariablesDeviceUseCase: UseCase<Any, DeviceResponse<List<Pair<String, Double>>>>,
+    private val getVariablesDeviceUseCase: UseCase<Any, DeviceResponse<List<@JvmSuppressWildcards Pair<VariableType, Double>>>>,
     @PowerDevice private val setPowerDeviceUseCase: UseCase<Boolean, DeviceResponse<Boolean>>,
     @ColorDevice private val setColorDeviceUseCase: UseCase<Int, DeviceResponse<Int>>,
     @BightnessDevice private val setBrightnessDeviceUseCase: UseCase<Double, DeviceResponse<Double>>,
@@ -27,6 +27,8 @@ class MainViewModel @Inject constructor(
     @ModeDevice private val setModeDeviceUseCase: UseCase<Int, DeviceResponse<Int>>,
     @WhitePowerDevice private val setWhitePowerDeviceUseCase: UseCase<Boolean, DeviceResponse<Boolean>>,
     @WhiteBrightnessDevice private val setWhiteBrightnessDeviceUseCase: UseCase<Double, DeviceResponse<Double>>,
+    @LoadDataMemory private val loadVariablesToMemoryUseCase: UseCase<Any, Boolean>,
+    private val getModesSavedUseCase: UseCase<Any, List<@JvmSuppressWildcards ModeItemModel>?>
 ) : ViewModel() {
     private val _powerDevice = MutableLiveData<Boolean>()
     val powerDevice: LiveData<Boolean> = _powerDevice
@@ -55,24 +57,41 @@ class MainViewModel @Inject constructor(
     private val _loader = MutableLiveData<Boolean>()
     val loader: LiveData<Boolean> = _loader
 
+    private val _goToSetup = MutableLiveData<Boolean>()
+    val goToSetup: LiveData<Boolean> = _goToSetup
+
     private val _warningSnackbar = MutableLiveData<String?>()
     val warningSnackbar: LiveData<String?> = _warningSnackbar
+
+    private val _listModes = MutableLiveData<List<ModeItemModel>>()
+    val listModes: LiveData<List<ModeItemModel>> = _listModes
 
     fun init() {
         viewModelScope.launch {
             _loader.postValue(true)
             // delay(5000)
+            if (!loadVariablesToMemoryUseCase.execute()){
+                _goToSetup.postValue(true)
+                return@launch
+            }
+            async {
+                val modes = getModesSavedUseCase.execute()
+                modes?.let {
+                    _listModes.postValue(it)
+                }
+            }
             val response = getVariablesDeviceUseCase.execute()
             if (response.isSuccessful){
                 response.value?.forEach {
                     when(it.first) {
-                        Variables.POWER_VAR -> _powerDevice.postValue(it.second == 1.0)
-                        Variables.BRIGHTNESS_VAR -> _brightness.postValue(it.second.value())
-                        Variables.SPEED_VAR -> _speed.postValue(it.second.value())
-                        Variables.VOLUME_VAR -> _volume.postValue(it.second.value())
-                        Variables.MODE_VAR -> _mode.postValue(it.second.value().toInt())
-                        Variables.WHITE_POWER_VAR -> _whitePower.postValue(it.second == 1.0)
-                        Variables.WHITE_BRIGHTNESS_VAR -> _whiteBrightness.postValue(it.second.value())
+                        VariableType.POWER_VAR -> _powerDevice.postValue(it.second == 1.0)
+                        VariableType.BRIGHTNESS_VAR -> _brightness.postValue(it.second.value())
+                        VariableType.SPEED_VAR -> _speed.postValue(it.second.value())
+                        VariableType.VOLUME_VAR -> _volume.postValue(it.second.value())
+                        VariableType.MODE_VAR -> _mode.postValue(it.second.value().toInt())
+                        VariableType.WHITE_POWER_VAR -> _whitePower.postValue(it.second == 1.0)
+                        VariableType.WHITE_BRIGHTNESS_VAR -> _whiteBrightness.postValue(it.second.value())
+                        else -> { }
                     }
                 }
             } else {
@@ -152,9 +171,7 @@ class MainViewModel @Inject constructor(
     fun sendMode(value: Int) {
         viewModelScope.launch {
             val response = setModeDeviceUseCase.execute(value)
-            if (response.isSuccessful){
-                _mode.postValue(value)
-            } else {
+            if (!response.isSuccessful){
                 _mode.postValue(_mode.value)
                 _warningSnackbar.postValue(response.errorMessage)
             }
@@ -188,7 +205,6 @@ class MainViewModel @Inject constructor(
     companion object {
         private const val POWER_INITIAL_VALUE = false
         private const val BRIGHTNESS_INITIAL_VALUE = 0.0
-        private const val COLOR_INITIAL_VALUE = 0
         private const val SPEDD_INITIAL_VALUE = 0.0
         private const val VOLUME_INITIAL_VALUE = 0.0
         private const val MODE_INITIAL_VALUE = 0

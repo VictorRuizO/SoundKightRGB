@@ -22,6 +22,8 @@ import javax.inject.Qualifier
 @Qualifier annotation class WhitePowerDevice
 @Qualifier annotation class WhiteBrightnessDevice
 @Qualifier annotation class SaveDataSetup
+@Qualifier annotation class LoadDataMemory
+@Qualifier annotation class GetModesMemory
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -32,7 +34,7 @@ abstract class UseCaseModule {
     abstract fun bindSetPowerDeviceUseCase(imp: SetPowerDeviceUseCase): UseCase<Boolean, DeviceResponse<Boolean>>
 
     @Binds
-    abstract fun bindGetVariableDeviceUseCase(imp: GetVariablesDeviceUseCase): UseCase<Any, DeviceResponse<List<@JvmSuppressWildcards Pair<String, Double>>>>
+    abstract fun bindGetVariableDeviceUseCase(imp: GetVariablesDeviceUseCase): UseCase<Any, DeviceResponse<List<@JvmSuppressWildcards Pair<VariableType, Double>>>>
 
     @BightnessDevice
     @Binds
@@ -80,4 +82,9 @@ abstract class UseCaseModule {
 
     @Binds
     abstract fun bindLoadModesUseCase(imp: LoadModesUseCase): UseCase<Any, List<@JvmSuppressWildcards ModeItemModel>?>
+
+    @LoadDataMemory
+    @Binds
+    abstract fun bindLoadVariablesToMemoryUseCase(imp: LoadVariablesToMemoryUseCase): UseCase<Any, Boolean>
+
 }

@@ -26,21 +26,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var warningSnackbar: WarningSnackbar
     private lateinit var loader: LoadingDialog
 
-    private var firstTimeMode = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         loader = LoadingDialog.make(this)
         binding.colorPickerView.setColor(Color.WHITE, false)
-        viewModel.init()
 
-        setAdapters()
         setListeners()
         setObservers()
+    }
 
-        goToSetupActivity()
+    override fun onResume() {
+        super.onResume()
+        viewModel.init()
     }
 
     private fun makeWarningSnackbar(subText: String) {
@@ -52,19 +51,6 @@ class MainActivity : AppCompatActivity() {
             .setIconColor(R.color.warning_red)
             .build()
         warningSnackbar.show()
-    }
-
-    private fun setAdapters() {
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.modeLightArray,
-            R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_item)
-            binding.modeSpinner.adapter = adapter
-            binding.modeSpinner.setSelection(0, false)
-        }
-
     }
 
     private fun setObservers() {
@@ -111,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.mode.observe(this) {
             with(binding.modeSpinner) {
                 if (it < adapter.count){
-                    firstTimeMode = true
+                    // firstTimeMode = true
                     setSelection(it)
                 }
             }
@@ -136,6 +122,20 @@ class MainActivity : AppCompatActivity() {
                 loader.show()
             } else {
                 loader.dismiss()
+            }
+        }
+
+        viewModel.goToSetup.observe(this) {
+            if (it)
+                goToSetupActivity()
+        }
+
+        viewModel.listModes.observe(this) {
+            val modes = it.map { it.name }
+            ArrayAdapter(this, R.layout.spinner_item, modes).also { adapter ->
+                adapter.setDropDownViewResource(R.layout.spinner_item)
+                binding.modeSpinner.adapter = adapter
+                binding.modeSpinner.setSelection(0, false)
             }
         }
     }
@@ -195,10 +195,7 @@ class MainActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                if (!firstTimeMode) {
-                    viewModel.sendMode(position)
-                }
-                firstTimeMode = false
+                viewModel.sendMode(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -221,6 +218,10 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        binding.settingsImageView.setOnClickListener {
+            goToSetupActivity()
+        }
     }
 
     private fun goToSetupActivity() {

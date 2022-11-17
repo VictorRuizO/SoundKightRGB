@@ -8,6 +8,17 @@
     android:background="@color/main_gray"
     tools:context=".view.activity.MainActivity">
 
+    <ImageView
+        android:id="@+id/settingsImageView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_setting"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/second_gray" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/powerBackgroundConstraintLayout"
         android:layout_width="100dp"
@@ -158,6 +169,18 @@
         app:srcCompat="@drawable/ic_sound_mas"
         app:tint="@color/secand_white" />
 
+    <TextView
+        android:id="@+id/modeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/mode_text_spinner"
+        android:textColor="@color/secand_white"
+        app:layout_constraintBottom_toBottomOf="@id/modeSpinner"
+        app:layout_constraintEnd_toStartOf="@id/modeSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/modeSpinner" />
+
     <Spinner
         android:id="@+id/modeSpinner"
         android:layout_width="0dp"
@@ -165,9 +188,10 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
+        android:tooltipText="Mode"
         android:outlineSpotShadowColor="@color/main_gray"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/modeTextView"
         app:layout_constraintTop_toBottomOf="@+id/volumeSeekBar" />
 
     <ImageView

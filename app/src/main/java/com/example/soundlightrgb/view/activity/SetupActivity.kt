@@ -1,13 +1,16 @@
 package com.example.soundlightrgb.view.activity
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.soundlightrgb.R
 import com.example.soundlightrgb.databinding.ActivitySetupBinding
 import com.example.soundlightrgb.domain.model.VariableType
+import com.example.soundlightrgb.util.EMPTY_STRING
 import com.example.soundlightrgb.view.adapter.SetupModeAdapter
 import com.example.soundlightrgb.view.customView.loadingDialog.LoadingDialog
 import com.example.soundlightrgb.view.customView.warningSnackbar.WarningSnackbar
@@ -25,6 +28,8 @@ class SetupActivity : AppCompatActivity() {
 
     private lateinit var warningSnackbar: WarningSnackbar
     private lateinit var loader: LoadingDialog
+
+    private var stateShowToken = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +50,8 @@ class SetupActivity : AppCompatActivity() {
             VariableItemModel(VariableType.SPEED_VAR, binding.setupVariablesView.speedVarEditText.text.toString()),
             VariableItemModel(VariableType.VOLUME_VAR, binding.setupVariablesView.volumeVarEditText.text.toString()),
             VariableItemModel(VariableType.MODE_VAR, binding.setupVariablesView.modeVarEditText.text.toString()),
-            VariableItemModel(VariableType.WHITE_POWER_VAR, binding.setupVariablesView.whiteBrightnessVarEditText.text.toString()),
-            VariableItemModel(VariableType.WHITE_BRIGHTNESS_VAR, binding.setupVariablesView.whiteBrightnessVarTextView.text.toString()),
+            VariableItemModel(VariableType.WHITE_POWER_VAR, binding.setupVariablesView.whitePowerVarEditText.text.toString()),
+            VariableItemModel(VariableType.WHITE_BRIGHTNESS_VAR, binding.setupVariablesView.whiteBrightnessVarEditText.text.toString()),
         )
     }
 
@@ -66,13 +71,29 @@ class SetupActivity : AppCompatActivity() {
             modeAdapter.addMode()
         }
         binding.saveButton.setOnClickListener {
-            viewModel.setVariables(getVariablesList())
-            viewModel.saveData()
+            viewModel.saveData(
+                binding.tokenEditText.text.toString(),
+                getVariablesList(),
+                modeAdapter.getItems().filter { it.name != EMPTY_STRING }
+            )
+        }
+        binding.backImageView.setOnClickListener {
+            finish()
+        }
+        binding.showTokenImageView.setOnClickListener {
+            if (stateShowToken) {
+                binding.showTokenImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_invisible_eye))
+                binding.tokenEditText.inputType = InputType.TYPE_CLASS_TEXT
+            } else {
+                binding.showTokenImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_visible_eye))
+                binding.tokenEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+            stateShowToken = !stateShowToken
         }
     }
 
     private fun setAdapters() {
-        modeAdapter = SetupModeAdapter(mutableListOf<ModeItemModel>(ModeItemModel("0","salid")))
+        modeAdapter = SetupModeAdapter(mutableListOf())
         binding.modesRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@SetupActivity)
             setHasFixedSize(false)
@@ -109,7 +130,11 @@ class SetupActivity : AppCompatActivity() {
             )
         }
         viewModel.modes.observe(this) {
-            modeAdapter.setItems(it)
+            if (it.isEmpty()) {
+                modeAdapter.setItems(listOf(ModeItemModel("0", "", true)))
+            } else {
+                modeAdapter.setItems(it)
+            }
         }
         viewModel.state.observe(this) {
             if (!it) {

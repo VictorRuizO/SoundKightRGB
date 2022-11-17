@@ -13,3 +13,25 @@ enum class ErrorType{
     NETWORK_ERROR,
     GENERIC_ERROR,
 }
+
+object DeviceResponseGeneric {
+    val DEVICE_RESPONSE_NO_VAR_ERROR = DeviceResponse<Double>(
+        isSuccessful = false,
+        value = null,
+        errorMessage = "No hay variable guardada.",
+        errorCode = "-1"
+    )
+    val DEVICE_RESPONSE_NO_VAR_ERROR_INT = DeviceResponse<Int>(
+        isSuccessful = false,
+        value = null,
+        errorMessage = "No hay variable guardada.",
+        errorCode = "-1"
+    )
+
+    val DEVICE_RESPONSE_NO_VAR_ERROR_BOOL = DeviceResponse<Boolean>(
+        isSuccessful = false,
+        value = null,
+        errorMessage = "No hay variable guardada.",
+        errorCode = "-1"
+    )
+}
